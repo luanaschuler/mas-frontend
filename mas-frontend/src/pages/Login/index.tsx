@@ -1,9 +1,9 @@
 import {FiLogIn, FiMail, FiLock} from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Button } from '../../components/Button';
 import { Background, Container, Content, FormContainer, InputContainer, Error } from './styles';
-import api from '../../services/api';
+import {useAuth} from '../../hooks/Auth';
 
 interface FormData {
     email: string,
@@ -12,10 +12,17 @@ interface FormData {
 
 export function Login() {
 
+    const {signIn} = useAuth();
+
+    const history = useHistory();
+
     const {register, handleSubmit, formState: {errors}} = useForm<FormData>();
 
-    const onSubmit = handleSubmit(data => api.post('/auth', data).then(response => alert(response.data)));
-
+    const onSubmit = handleSubmit( async data => await signIn({
+        email: data.email,
+        password: data.password
+    }).then(() => history.push('/dashboard'))
+);
     return(
         <Container>
             <Content>
@@ -36,7 +43,7 @@ export function Login() {
                     </form>
                     <Link to="/register">
                         <FiLogIn size={40} />
-                        Cadastre seu acesso
+                        Cadastre sua conta
                     </Link>
                 </FormContainer>
             </Content>
