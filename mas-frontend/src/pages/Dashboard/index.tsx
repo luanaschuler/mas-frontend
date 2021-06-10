@@ -6,9 +6,6 @@ import {NewActivyModal} from '../../components/NewActivyModal';
 import {NewCourseUnitModal} from '../../components/NewCourseUnitModal';
 import {Container} from './styles';
 
-function handleCloseActivyModal() {}
-function handleCloseCourseUnitModal() {}
-
 export function Dashboard() {
 
     const [isNewActivyModalOpen, setIsNewActivyModalOpen] = useState(false);
